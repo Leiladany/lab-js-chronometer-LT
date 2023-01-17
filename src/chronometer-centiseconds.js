@@ -1,18 +1,32 @@
 class Chronometer {
   constructor() {
-    // ... your code goes here
-  }
+    this.currentTime = 0
+    this.intervalId = null
+    this.currentMilliseconds = 0
+    }
 
-  start(printTimeCallback) {
-    // ... your code goes here
+  start(printTimeCallback, printMilliseconds) {
+    this.intervalId = setInterval (() => {
+      this.currentTime++
+      if (printTimeCallback) printTimeCallback()
+    }, 1000)
+
+    this.milliesecondsIntervalId = setInterval (() => {
+      if (this.currentMilliseconds === 99) {
+        this.currentMilliseconds = 0
+      }
+      this.currentMilliseconds ++
+      if (printMilliseconds) printMilliseconds()
+    }, 10)
   }
 
   getMinutes() {
-    // ... your code goes here
+    let currentTimeMin = Math.floor(this.currentTime / 60);
+    return currentTimeMin
   }
 
   getSeconds() {
-    // ... your code goes here
+    
   }
 
   getCentiseconds() {
@@ -24,14 +38,21 @@ class Chronometer {
   }
 
   stop() {
-    // ... your code goes here
-  }
+    clearInterval(this.intervalId);
+    clearInterval(this.millisecondsIntervalId)
+    }
 
   reset() {
-    // ... your code goes here
+    this.currentTime = 0
+    this.currentMilliseconds = 0
   }
+    
 
   split() {
-    // ... your code goes here
-  }
+    let minutes = this.twoDigitsNumber(this.getMinutes());
+    let seconds = this.twoDigitsNumber(this.getSeconds());
+    let milliseconds = this.twoDigitsNumber(this.currentMilliseconds); // <= BONUS 
+
+    return `${minutes}:${seconds}:${milliseconds}`; // <= BONUS (comentado porque no pasa los tests sino) 
+    }
 }
